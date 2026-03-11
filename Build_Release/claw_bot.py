@@ -20,6 +20,3 @@ async def health(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("OK")
 
 
-git add Build_Release/claw_bot.py
-git commit -m "fix indentation"
-git push origin main
