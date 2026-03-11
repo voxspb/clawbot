@@ -1,43 +1,31 @@
-import subprocess
 import os
-import platform
-import time
-from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram import Update
+from telegram.ext import Application, CommandHandler, ContextTypes
 
-TOKEN = "8722167197:AAEC482AW_VLAPipXxHOxgkfnk3ydfrjcg4"
+TOKEN = os.getenv("8611289628:AAFcPtzIiESg_oCFHga-FnIm1bGRHcFOU2M")
 
-keyboard = [["▶ PLAY"]]
-markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "🏴‍☠️ Captain Claw бот готов.\nНажми кнопку чтобы запустить игру.",
-        reply_markup=markup
-    )
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("Бот онлайн ✅")
 
-async def play(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    subprocess.Popen(["/Users/ivanbulatov/OpenClaw/Build_Release/openclaw"])
-    await update.message.reply_text("🎮 Запускаю Captain Claw!")
-async def health(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    uptime = subprocess.check_output(["uptime"]).decode().strip()
-    hostname = platform.node()
-    python_version = platform.python_version()
+async def health(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("OK")
 
-    message = (
-        "🟢 Bot running\n\n"
-        f"Host: {hostname}\n"
-        f"Python: {python_version}\n"
-        f"System uptime:\n{uptime}"
-    )
 
-    await update.message.reply_text(message)
+def main() -> None:
+    if not TOKEN:
+        raise ValueError("BOT_TOKEN не найден в переменных окружения")
 
-app = ApplicationBuilder().token(TOKEN).build()
+    app = Application.builder().token(TOKEN).build()
 
-app.add_handler(CommandHandler("start", start))
-app.add_handler(CommandHandler("health", health))
-app.add_handler(MessageHandler(filters.TEXT & filters.Regex("▶ PLAY"), play))
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("health", health))
 
-app.run_polling()
+    print("Bot started")
+
+    app.run_polling(drop_pending_updates=True)
+
+
+if __name__ == "__main__":
+    main()
