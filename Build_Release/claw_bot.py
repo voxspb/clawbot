@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 TOKEN = os.environ.get("8611289628:AAFcPtzIiESg_oCFHga-FnIm1bGRHcFOU2M")
-print("TOKEN FROM ENV:", TOKEN)
+    print("TOKEN FROM ENV:", TOKEN)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
