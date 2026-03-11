@@ -16,7 +16,8 @@ async def health(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 def main() -> None:
     if not TOKEN:
-        raise ValueError("BOT_TOKEN не найден в переменных окружения")
+        if not TOKEN:
+    print("WARNING: BOT_TOKEN не найден")
 
     app = Application.builder().token(TOKEN).build()
 
